@@ -10,16 +10,15 @@ db = create_engine("postgresql:///chinook")
 base = declarative_base()
 
 
-# create a class-based model for the "Programmer" table
-class Programmer(base):
-    __tablename__ = "Programmer"
+# create a class-based model for the "Travel" table
+class Travel(base):
+    __tablename__ = "Travel"
     id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    gender = Column(String)
-    nationality = Column(String)
+    country_name = Column(String)
+    city_name = Column(String)
+    population = Column(Integer)
     famous_for = Column(String)
-
+   
 
 # instead of connecting to the database directly, we will ask for a session
 # create a new instance of sessionmaker, then point to our engine (the db)
@@ -31,78 +30,40 @@ session = Session()
 base.metadata.create_all(db)
 
 
-# creating records on our Progammer table
-ada_lovelace = Programmer(
-    first_name="Ada",
-    last_name="Lovelace",
-    gender="F",
-    nationality="British",
-    famous_for="First Programmer"
+# creating records on our Travel table
+tianjin = Travel(
+    country_name="China",
+    city_name="Tianjin",
+    population=int(14000000),
+    famous_for="Tianjin Eye"
 )
 
-alan_turing = Programmer(
-    first_name="Alan",
-    last_name="Turing",
-    gender="M",
-    nationality="British",
-    famous_for="Modern Computing"
+paris = Travel(
+    country_name="France",
+    city_name="Paris",
+    population=int(65000000),
+    famous_for="The Eiffel Tower"
 )
 
-grace_hopper = Programmer(
-    first_name="Grace",
-    last_name="Hopper",
-    gender="F",
-    nationality="American",
-    famous_for="COBOL language"
-)
-
-margaret_hamilton = Programmer(
-    first_name="Margaret",
-    last_name="Hamilton",
-    gender="F",
-    nationality="American",
-    famous_for="Apollo 11"
-)
-
-bill_gates = Programmer(
-    first_name="Bill",
-    last_name="Gates",
-    gender="M",
-    nationality="American",
-    famous_for="Microsoft"
-)
-
-tim_berners_lee = Programmer(
-    first_name="Tim",
-    last_name="Berners-Lee",
-    gender="M",
-    nationality="British",
-    famous_for="World Wide Web"
-)
-
-cara_mcavinchey = Programmer(
-    first_name="Cara",
-    last_name="McAvinchey",
-    gender="F",
-    nationality="South Africa",
-    famous_for="Persistance, patience and kindness"
+athens = Travel(
+    country_name="Greece",
+    city_name="Athens",
+    population=int(10000000),
+    famous_for="The Acropolis"
 )
 
 # add each instance of our programmers to our session
-# session.add(ada_lovelace)
-# session.add(alan_turing)
-# session.add(grace_hopper)
-# session.add(margaret_hamilton)
-# session.add(bill_gates)
-# session.add(tim_berners_lee)
-# session.add(cara_mcavinchey)
+# session.add(tianjin)
+# session.add(paris)
+# session.add(athens)
+
 
 # updating a single record
-# programmer = session.query(Programmer).filter_by(id=7).first()
-# programmer.famous_for = "World President"
+# travel = session.query(Travel).filter_by(id=1).first()
+# travel.famous_for = "The Haihe River"
 
 # commit our session to the database
-# session.commit()
+session.commit()
 
 # updating multiple records
 # people = session.query(Programmer)
@@ -139,14 +100,14 @@ cara_mcavinchey = Programmer(
 #     session.commit()
 
 
-# query the database to find all Programmers
-programmers = session.query(Programmer)
-for programmer in programmers:
+# query the database to find all Travel Destinations
+destinations = session.query(Travel)
+for destination in destinations:
     print(
-        programmer.id,
-        programmer.first_name + " " + programmer.last_name,
-        programmer.gender,
-        programmer.nationality,
-        programmer.famous_for,
+        destination.id,
+        destination.country_name,
+        destination.city_name,
+        destination.population,
+        destination.famous_for,
         sep=" | "
     )
